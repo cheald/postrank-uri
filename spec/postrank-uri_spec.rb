@@ -271,36 +271,6 @@ describe PostRank::URI do
   end
 
   context "href extract" do
-    it "should extract links from html text" do
-      g,b = PostRank::URI.extract_href("<a href='google.com'>link to google</a> with text <a href='b.com'>stuff</a>")
-
-      g.first.should == 'http://google.com/'
-      b.first.should == 'http://b.com/'
-
-      g.last.should == 'link to google'
-      b.last.should == 'stuff'
-    end
-
-    it "should handle empty hrefs" do
-      lambda do
-        l = PostRank::URI.extract_href("<a>link to google</a> with text <a href=''>stuff</a>")
-        l.should be_empty
-      end.should_not raise_error
-    end
-
-    context "relative paths" do
-      it "should reject relative paths" do
-        l = PostRank::URI.extract_href("<a href='/stuff'>link to stuff</a>")
-        l.should be_empty
-      end
-
-      it "should resolve relative paths if host is provided" do
-        i = PostRank::URI.extract_href("<a href='/stuff'>link to stuff</a>", "igvita.com").first
-        i.first.should == 'http://igvita.com/stuff'
-        i.last.should == 'link to stuff'
-      end
-    end
-
     context "domain extraction" do
       url_list = {
         "http://alex.pages.example.com" => "example.com",

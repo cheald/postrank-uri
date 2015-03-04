@@ -2,7 +2,6 @@
 
 require 'addressable/uri'
 require 'digest/md5'
-require 'nokogiri'
 require 'public_suffix'
 require 'yaml'
 
@@ -105,22 +104,6 @@ module PostRank
       end
 
       urls.compact
-    end
-
-    def extract_href(text, host = nil)
-      urls = []
-      Nokogiri.HTML(text).search('a').each do |a|
-        begin
-          url = clean(a.attr('href'), :raw => true, :host => host)
-
-          next unless url.absolute?
-
-          urls.push [url.to_s, a.text]
-        rescue
-          next
-        end
-      end
-      urls
     end
 
     def escape(uri)
